@@ -1,0 +1,16 @@
+{
+  "name": "Nombre corto del tanque",
+  "description": "Descripcion del tanque",
+  "location": {
+    "latitude": "Valor de la latitud geografica para el tanque",
+    "longitude": "Valor de la longitud geografica para el tanque"
+  },
+  "unitMeasurement": "Unidad de medida para el nivel de los tanques",
+  "measureSymbol": "Simbolo de la unidad de medida para el nivel de los tanques",
+  "measures": [
+    {
+      "date": "Fecha de la medición",
+      "value": "Valor de la medición de los tanques"
+    }
+  ]
+}
