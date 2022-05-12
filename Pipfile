@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 firebase-admin = "*"
 python-dotenv = "*"
+flask = "*"
+flask-socketio = "*"
+gevent = "*"
+gevent-websocket = "*"
 
 [dev-packages]
 pytest = "*"

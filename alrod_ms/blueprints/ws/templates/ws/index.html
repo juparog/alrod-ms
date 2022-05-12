@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.json-viewer.css') }}" />
+
+    <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/socket.io.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.json-viewer.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            const socket = io();
+
+            const date = () => {
+                const d_ = new Date();
+                const date_ = `${d_.getFullYear()}-${(d_.getMonth() + 1)}-${d_.getDay()}`;
+                const time_ = `${d_.getHours()}:${d_.getMinutes()}:${d_.getSeconds()}`
+                return `${date_} ${time_}`;
+            };
+
+            // entrada de mensajes
+            socket.on('output-data-event', function (msg) {
+                $('#json-renderer').jsonViewer(msg);
+                $('#log').prepend('<p>Received: [' + date() + '] ws:output-data-event: ' + JSON.stringify(msg) + '</p>');
+            });
+
+            // saida de mensajes
+            $('form#emit').submit(function (event) {
+                $('#log').prepend('<p>Emited: [' + date() + '] ws:input-data-event: ' + $('#emit_data').val() + '</p>');
+                socket.emit('input-data-event', {
+                    data: $('#emit_data').val()
+                });
+                return false;
+            });
+            $('form#broadcast').submit(function (event) {
+                $('#log').prepend('<p>Emited: [' + date() + '] ws:broadcast-event' + $('#broadcast_data').val() + '</p>');
+                socket.emit('broadcast-event', {
+                    data: $('#broadcast_data').val()
+                });
+                return false;
+            });
+
+        });
+
+    </script>
+
+    <title>WS Test</title>
+</head>
+
+<body style="background-color:white;">
+
+    <div class="container">
+        <h1 class="mt-5 text-center">WebSocket test</h1>
+
+        <div>
+            <h2 style="background-color:white;">Output-data-event -</h1>
+            <pre id="json-renderer"></pre>
+        </div>
+        <div>
+            <h2 style="background-color:white;">Actions -</h1>
+            <form  id="emit" class="my-3" method="POST" action='#'>
+                <input type="text" name="emit_data" id="emit_data" placeholder="Message">
+                <input class="btn btn-primary" type="submit" value="Send Message">
+            </form>
+            <br>
+            <form id="broadcast" class="my-3" method="POST" action='#'>
+                <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
+                <input class="btn btn-primary" type="submit" value="Send Broadcast Message">
+            </form>
+
+            <form id="disconnect" method="GET" action="#">
+                <input class="mr-5 btn btn-danger" type="submit" value="Disconnect Server">
+            </form>
+        </div>
+        <div>
+            <h2 style="background-color:white;">Log -</h2>
+            <div id="log"></div>
+        </div>
+    </div>
+</body>
+
+</html>

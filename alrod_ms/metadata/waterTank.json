@@ -7,6 +7,7 @@
   },
   "unitMeasurement": "Unidad de medida para el nivel de los tanques",
   "measureSymbol": "Simbolo de la unidad de medida para el nivel de los tanques",
+  "status": "Estado del monitoreo del tanque: ACTIVE, INACTIVE",
   "measures": [
     {
       "date": "Fecha de la medición",
