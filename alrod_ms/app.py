@@ -1,6 +1,6 @@
 # modulos de pip
 from flask import Flask
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 # modulos personalizados
 from helpers.db import firestore_client
 import helpers.env as env
@@ -19,9 +19,8 @@ app.register_blueprint(ws)
 
 # crear y configurar la conexxion websocket
 logger.debug('creating websocket...')
-socketio = SocketIO(app)
+socketio = SocketIO(app, logger=True, engineio_logger=True)
 
 # crear la conexon con la base de datos
 logger.debug('creating db...')
 db = firestore_client()
-# funcion para crear el websocket

@@ -1,5 +1,7 @@
 # modulos de pip
 from flask_socketio import emit
+from flask import request
+import traceback
 # modulos personalizados
 from app import socketio
 from helpers.logger import log
@@ -28,3 +30,10 @@ def test_connect():
 def test_disconnect():
     logger.debug('ws:disconnect helper')
     logger.debug('Client disconnected')
+
+@socketio.on_error_default
+def default_error_handler(e):
+    logger.debug('ws:on_error_default helper')
+    logger.debug(request.event["message"])
+    logger.debug(request.event["args"])
+    logger.error(e, traceback.format_exc())

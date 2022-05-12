@@ -29,6 +29,12 @@
             socket.on('output-data-event', function (msg) {
                 $('#json-renderer').jsonViewer(msg);
                 $('#log').prepend('<p>Received: [' + date() + '] ws:output-data-event: ' + JSON.stringify(msg) + '</p>');
+            })
+
+            // entrada de tankes
+            socket.on('tanks-data-event', function (msg) {
+                $('#json-renderer-tanks').jsonViewer(msg);
+                $('#log').prepend('<p>Received: [' + date() + '] ws:output-data-event: ' + JSON.stringify(msg) + '</p>');
             });
 
             // saida de mensajes
@@ -59,6 +65,10 @@
     <div class="container">
         <h1 class="mt-5 text-center">WebSocket test</h1>
 
+        <div>
+            <h2 style="background-color:white;">Tanks-data-event -</h1>
+            <pre id="json-renderer-tanks"></pre>
+        </div>
         <div>
             <h2 style="background-color:white;">Output-data-event -</h1>
             <pre id="json-renderer"></pre>
